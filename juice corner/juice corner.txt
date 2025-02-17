@@ -1,0 +1,95 @@
+CREATE TABLE Customers (
+    Customer_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(20) ,
+    Email VARCHAR(100) ,
+    Phone INT,
+    Address VARCHAR(100) 
+);
+CREATE TABLE Categories (
+    Category_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Category_Name VARCHAR(80) 
+);
+CREATE TABLE Juices (
+    Juice_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(20) ,
+    Price INT,
+    Category_ID INT,
+    FOREIGN KEY (Category_ID) REFERENCES Categories(Category_ID)
+);
+CREATE TABLE Orders (
+    Order_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Customer_ID INT,
+    Order_Date Date,
+    Total_price int,
+    FOREIGN KEY (Customer_ID) REFERENCES Customers(Customer_ID)
+);
+CREATE TABLE Order_Items (
+    OrderItem_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Order_ID INT,
+    Juice_ID INT,
+    Quantity INT ,
+    Subtotal INT,
+    FOREIGN KEY (Order_ID) REFERENCES Orders(Order_ID),
+    FOREIGN KEY (Juice_ID) REFERENCES Juices(Juice_ID)
+);
+CREATE TABLE Payments (
+    Payment_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Order_ID INT,
+    Payment_Date DATE,
+    Amount INT,
+    Payment_Method VARCHAR(100) ,
+    FOREIGN KEY (Order_ID) REFERENCES Orders(Order_ID)
+);
+CREATE TABLE Ingredients (
+    Ingredient_ID INT PRIMARY KEY AUTO_INCREMENT,
+     Name VARCHAR(80) 
+);
+CREATE TABLE Juice_Ingredients (
+    Juice_Ingredients_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Juice_ID INT,
+    Ingredient_ID INT,
+    FOREIGN KEY (Juice_ID) REFERENCES Juices(Juice_ID),
+    FOREIGN KEY (Ingredient_ID) REFERENCES Ingredients(Ingredient_ID)
+);
+INSERT INTO Customers (Name, Email, Phone, Address) VALUES
+('Ali Ahmed', 'ali@email.com', '123456789', '123 Street'),
+('Sara Khalid', 'sara@email.com', '987654321', '456 Avenue');
+
+INSERT INTO Categories (Category_Name) VALUES
+('Citrus Juices'),
+('Berry Juices'),
+('Tropical Juices');
+
+
+INSERT INTO Juices (Name, Price, Category_ID) VALUES
+('Orange Juice', 3.50, 1),
+('Strawberry Juice', 4.00, 2),
+('Mango Juice', 5.00, 3);
+
+INSERT INTO Orders (Customer_ID, Total_price) VALUES
+(1, 7.50),
+(2, 9.00);
+
+INSERT INTO Order_Items (Order_ID, Juice_ID, Quantity, Subtotal) VALUES
+(1, 1, 2, 7.00),
+(2, 3, 1, 5.00);
+
+INSERT INTO Payments (Order_ID, Payment_Date, Amount, Payment_Method) VALUES
+(1, NOW(), 7.50, 'Credit Card'),
+(2, NOW(), 9.00, 'Cash');
+
+INSERT INTO Ingredients (Name) VALUES
+('Orange'),
+('Strawberry'),
+('Mango'),
+('Sugar'),
+('Water');
+
+INSERT INTO Juice_Ingredients (Juice_ID, Ingredient_ID) VALUES
+(1, 1), 
+(2, 2), 
+(3, 3), 
+(1, 4), 
+(2, 5); 
+
+
